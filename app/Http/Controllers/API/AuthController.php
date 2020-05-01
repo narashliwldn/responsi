@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use App\User;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,7 +18,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
@@ -48,7 +50,7 @@ class AuthController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'name'=>'required',
+            'name'=>'required|max:20',
             'email'=>'required|email|unique:users',
             'password' => 'required|min:8',
         ]);
@@ -60,7 +62,7 @@ class AuthController extends Controller
         $data = [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-            'password' => $request->input('password'),
+            'password' =>  Hash::make($request->input('password'))
 
         ];
 

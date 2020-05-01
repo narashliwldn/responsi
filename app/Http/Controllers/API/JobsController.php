@@ -26,7 +26,6 @@ class JobsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_jobs'=>'required',
             'name'=>'required|min:5|max:255',
         ]);
 
@@ -35,7 +34,6 @@ class JobsController extends Controller
         }
 
         $data = [
-            'id_jobs' => $request->input('job'),
             'name' => $request->input('name'),
         ];
 

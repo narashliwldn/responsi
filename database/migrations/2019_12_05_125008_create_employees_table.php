@@ -20,9 +20,8 @@ class CreateEmployeesTable extends Migration
              $table->string('email'); //string
              $table->string('phone'); //string
              $table->string('address'); //string
-            $table->timestamps();
+             $table->timestamps();
 
-            $table->foreign('id_jobs')->references('id_jobs')->on('jobs');
         });
     }
 
