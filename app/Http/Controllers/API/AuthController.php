@@ -29,7 +29,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email'=>'required|email',
-            'password'=>'required',
+            'password'=>'required'
         ]);
 
         if ($validator->fails()) {
@@ -51,7 +51,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name'=>'required|max:20',
             'email'=>'required|email|unique:users',
-            'password' => 'required|min:8',
+            'password' => 'required|min:8'
         ]);
 
         if ($validator->fails()) {
@@ -119,6 +119,41 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+      // code...
+      $validator = Validator::make($request->all(), [
+          'name'=>'required|max:20',
+          'password' => 'required|min:8'
+      ]);
+
+      if ($validator->fails()) {
+          return response()->json($validator->errors());
+      }
+
+      $data = [
+        'name' => $request->input('name'),
+        'password' => Hash::make($request->input('password'))
+      ];
+
+      User::where('id', $id)->update($data);
+
+      // User::where('id', auth()->user()->id)->update($data);
+
+      return response()->json([
+        'status' => 'success'
+      ]);
+    }
+
+    public function destroy($id)
+    {
+        User::where('id',$id)->delete();
+
+        return response()->json([
+            'status' => 'success'
         ]);
     }
 }

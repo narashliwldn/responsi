@@ -28,4 +28,7 @@ Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
     Route::post('register', 'API\AuthController@register');
     Route::post('refresh', 'API\AuthController@refresh');
     Route::post('me', 'API\AuthController@me');
+    Route::put('users', 'API\AuthController@update');
+    Route::delete('users/delete/{id}', 'API\AuthController@destroy');
+    // Route::resource('user', 'API\AuthController');
 });
